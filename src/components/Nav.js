@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../css/Nav.css";
 
 function Nav() {
-  const [show, handleShow] = useState([false]);
+  const [show, handleShow] = useState([]);
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 250) {

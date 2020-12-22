@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
 import "../css/Row.css";
+import YouTube from "react-youtube";
+import movieTrailer from "movie-trailer";
 
 const BASE_URL = "https://image.tmdb.org/t/p/original";
 /*useState is a hook in react. The '[]' inside is the intial value*/
 function Row({ title, fetchURL, isLargeRow }) {
   const [movies, setMovies] = useState([]);
+  const [trailerURL, settrailerURL] = useState("");
 
   useEffect(() => {
     /*The following code will be executed when the row loads.
@@ -21,6 +24,28 @@ function Row({ title, fetchURL, isLargeRow }) {
     }
     fetchData();
   }, [fetchURL]);
+
+  const opts = {
+    height: "390",
+    width: "100%",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
+  const handleClick = (movie) => {
+    if (trailerURL) settrailerURL("");
+    else {
+      movieTrailer(movie?.title || movie?.name || movie?.original_name || " ")
+        .then((url) => {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          settrailerURL(urlParams.get("v"));
+        })
+        .catch((error) => console.log(console.error));
+    }
+  };
+
   return (
     <div className="row">
       <h2>{title}</h2>
@@ -28,6 +53,7 @@ function Row({ title, fetchURL, isLargeRow }) {
         {movies.map((movie) => (
           <img
             key={movie.id} // To reload only what has changed and not everything
+            onClick={() => handleClick(movie)}
             className={`row_poster ${isLargeRow && "row_posterLarge"}`}
             src={`${BASE_URL}${
               isLargeRow ? movie.poster_path : movie.backdrop_path
@@ -36,6 +62,7 @@ function Row({ title, fetchURL, isLargeRow }) {
           />
         ))}
       </div>
+      {trailerURL && <YouTube videoId={trailerURL} opts={opts} />}
     </div>
   );
 }
