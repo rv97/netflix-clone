@@ -5,10 +5,17 @@ import "../css/Banner.css";
 
 function Banner() {
   const [movie, setMovie] = useState([]);
+  const genres = [];
+
+  for (const [key, value] of Object.entries(requests)) {
+    genres.push(key);
+  }
 
   useEffect(() => {
     async function fetchData() {
-      const request = await axios.get(requests.fetchNetflixOriginals);
+      const request = await axios.get(
+        requests[genres[Math.floor(Math.random() * genres.length - 1)]]
+      );
       setMovie(
         request.data.results[
           Math.floor(Math.random() * request.data.results.length - 1)
@@ -43,6 +50,7 @@ function Banner() {
         </div>
         <h1 className="banner_overview">{truncate(movie?.overview, 150)}</h1>
       </div>
+      <div className="banner--fadeBottom" />
     </header>
   );
 }

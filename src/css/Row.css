@@ -1,5 +1,6 @@
 .row {
-    margin-left: 20px;
+  margin-left: 20px;
+  color: #fff;
 }
 .row_posters {
   display: flex; /*Display the pics horizontally*/
@@ -24,9 +25,9 @@
 }
 
 .row_posterLarge {
-    max-height: 250px;
+  max-height: 250px;
 }
 
 .row_posterLarge.hover {
-    transform: scale(1.09);
+  transform: scale(1.09);
 }
