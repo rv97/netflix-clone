@@ -7,7 +7,7 @@ function Banner() {
   const [movie, setMovie] = useState([]);
   const genres = [];
 
-  for (const [key, value] of Object.entries(requests)) {
+  for (const [key] of Object.entries(requests)) {
     genres.push(key);
   }
 
