@@ -51,15 +51,24 @@ function Row({ title, fetchURL, isLargeRow }) {
       <h2>{title}</h2>
       <div className="row_posters">
         {movies.map((movie) => (
-          <img
-            key={movie.id} // To reload only what has changed and not everything
-            onClick={() => handleClick(movie)}
-            className={`row_poster ${isLargeRow && "row_posterLarge"}`}
-            src={`${BASE_URL}${
-              isLargeRow ? movie.poster_path : movie.backdrop_path
-            }`}
-            alt={movie.name}
-          />
+          <div className="row_movie_container">
+            <img
+              key={movie.id} // To reload only what has changed and not everything
+              onClick={() => handleClick(movie)}
+              className={`row_poster ${isLargeRow && "row_posterLarge"}`}
+              src={`${BASE_URL}${
+                isLargeRow ? movie.poster_path : movie.backdrop_path
+              }`}
+              alt={movie.name}
+            />
+            <div
+              className={`row_movie_title ${
+                isLargeRow && "row_movie_title_large"
+              }`}
+            >
+              {movie.name || movie.title || movie.original_name}
+            </div>
+          </div>
         ))}
       </div>
       {trailerURL && <YouTube videoId={trailerURL} opts={opts} />}
